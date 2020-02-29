@@ -125,7 +125,7 @@ def main():
 
     args = parser.parse_args()
 
-    data_parser = VCSInfo(user_file_path=args.users_file, project_path=args.project_path)
+    data_parser = VCSInfo(user_file_path=args.users_file.strip(), project_path=args.project_path.strip())
     response = data_parser.collect_data()
     print(json.dumps(response, indent=4))
 

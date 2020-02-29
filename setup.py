@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="vcs-info-test",
-    version="1.0.0",
+    version="1.0.1",
     author="Aleksandr Popov",
     author_email="admin@alexue4.ru",
     url="https://github.com/Underlor/vcsinfo_test",
