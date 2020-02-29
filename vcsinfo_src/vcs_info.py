@@ -9,7 +9,6 @@ import paramiko
 GIT_VCS_TYPE = "GIT"
 SVN_VCS_TYPE = "SVN"
 
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler(sys.stdout)
@@ -37,11 +36,15 @@ class VCSInfo:
             try:
                 vcs_type = self.get_type_of_vcs(ssh_connect)
             except Exception as e:
-                result[user.get("user")] = {
-                    "vcs_type": None,
-                    "vcs_type_error": str(e),
-                    "auth_type": "KEY FILE" if user.get("key_path") else "PASSWORD",
-                }
+                result.update(
+                    {
+                        user.get("user"): {
+                            "vcs_type": None,
+                            "vcs_type_error": str(e),
+                            "auth_type": "KEY FILE" if user.get("key_path") else "PASSWORD",
+                        }
+                    }
+                )
                 ssh_connect.close()
                 continue
 
