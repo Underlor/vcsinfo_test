@@ -72,7 +72,12 @@ class VCSInfo:
             return dict(
                 revision=self.send_command(
                     ssh_connect, "cd %s; svn info | grep \"Revision\" | awk '{print $2}'" % self.project_path
-                )
+                ),
+                branch=self.send_command(
+                    ssh_connect,
+                    "cd %s; svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$'"
+                    % self.project_path,
+                ),
             )
         except Exception as e:
             return dict(error=str(e))
@@ -123,6 +128,7 @@ def main():
     data_parser = VCSInfo(user_file_path=args.users_file, project_path=args.project_path)
     response = data_parser.collect_data()
     print(json.dumps(response, indent=4))
+
 
 if __name__ == "__main__":
     main()
