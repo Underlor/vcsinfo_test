@@ -4,7 +4,7 @@ This script collects data about user repositories from working directories.
 
 Install
 -----
-`pip install https://github.com/Underlor/vcsinfo_test#egg=vcs-info-test`
+`pip install git+https://github.com/Underlor/vcsinfo_test#egg=vcs-info-test`
 
 Usage
 -----
