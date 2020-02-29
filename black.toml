@@ -1,0 +1,11 @@
+[tool.black]
+line-length = 115
+py36 = true
+include = '\.pyi?$'
+exclude = '''
+/(
+  | Makefile
+  | README.md
+  | setup.cfg
+)/
+'''
