@@ -1,5 +1,7 @@
 import argparse
 import json
+import logging
+import sys
 
 import paramiko
 
@@ -8,8 +10,12 @@ GIT_VCS_TYPE = "GIT"
 SVN_VCS_TYPE = "SVN"
 
 
-class DecodeException(Exception):
-    pass
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter("%(asctime)s: %(levelname)s - %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 
 class VCSInfo:
@@ -23,6 +29,7 @@ class VCSInfo:
     def collect_data(self):
         result = {}
         for user in self.users_connect_data:
+            logger.info(json.dumps(f"Work with user {user.get('user')}"))
             ssh_connect = self.connect_ssh(
                 user.get("hostname"), user.get("user"), user.get("user"), key_filename=user.get("key_path")
             )
@@ -87,7 +94,7 @@ class VCSInfo:
             try:
                 return json.loads(file.read())
             except json.JSONDecodeError:
-                raise DecodeException("Bad file content! Must be json!")
+                raise Exception("Bad file content! Must be json!")
 
     def connect_ssh(self, host, username, password=None, key_filename=None):
         if not (password or key_filename):
@@ -127,7 +134,7 @@ def main():
 
     data_parser = VCSInfo(user_file_path=args.users_file.strip(), project_path=args.project_path.strip())
     response = data_parser.collect_data()
-    print(json.dumps(response, indent=4))
+    logger.info(json.dumps(response, indent=4))
 
 
 if __name__ == "__main__":
