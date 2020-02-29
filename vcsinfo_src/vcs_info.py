@@ -71,12 +71,12 @@ class VCSInfo:
         try:
             return dict(
                 revision=self.send_command(
-                    ssh_connect, "cd %s; svn info | grep \"Revision\" | awk '{print $2}'" % self.project_path
+                    ssh_connect, f"cd {self.project_path}; svn info | grep 'Revision' | awk '{{print $2}}'"
                 ),
                 branch=self.send_command(
                     ssh_connect,
-                    "cd %s; svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$'"
-                    % self.project_path,
+                    f"cd {self.project_path}; svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' "
+                    f"| egrep -o '[^/]+$'",
                 ),
             )
         except Exception as e:
