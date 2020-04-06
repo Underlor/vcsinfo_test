@@ -1,4 +1,4 @@
-VCS INFO
+VCS INFO(Wargaming) task(http://load.crazydev.ru/d/7hXALT)
 ========
 This script collects data about user repositories from working directories. 
 
